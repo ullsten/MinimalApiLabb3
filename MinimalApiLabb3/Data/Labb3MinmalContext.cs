@@ -5,6 +5,10 @@ namespace MinimalApiLabb3.Data
 {
     public class Labb3MinmalContext : DbContext
     {
+        public Labb3MinmalContext()
+        {
+        }
+
         public Labb3MinmalContext(DbContextOptions<Labb3MinmalContext> options) : base(options)
         {
             
