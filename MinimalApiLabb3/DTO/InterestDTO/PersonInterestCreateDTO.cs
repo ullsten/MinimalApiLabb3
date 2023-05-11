@@ -15,6 +15,6 @@ namespace MinimalApiLabb3.DTO.InterestDTO
         [DisplayName("Description")]
         public string? InterestDescription { get; set; }
 
-        public int FK_PersonId { get; set; }
+        public int? FK_PersonId { get; set; } = null;
     }
 }

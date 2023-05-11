@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MinimalApiLabb3.Data;
 
@@ -11,9 +12,11 @@ using MinimalApiLabb3.Data;
 namespace MinimalApiLabb3.Migrations
 {
     [DbContext(typeof(Labb3MinmalContext))]
-    partial class Labb3MinmalContextModelSnapshot : ModelSnapshot
+    [Migration("20230511064427_createDbnew")]
+    partial class createDbnew
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,7 +36,7 @@ namespace MinimalApiLabb3.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("FK_PersonId")
+                    b.Property<int>("FK_PersonId")
                         .HasColumnType("int");
 
                     b.Property<string>("InterestDescription")
@@ -113,7 +116,9 @@ namespace MinimalApiLabb3.Migrations
                 {
                     b.HasOne("MinimalApiLabb3.Program+Person", "Persons")
                         .WithMany("Interests")
-                        .HasForeignKey("FK_PersonId");
+                        .HasForeignKey("FK_PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Persons");
                 });
