@@ -39,6 +39,16 @@ namespace MinimalApiLabb3
                 app.UseSwaggerUI();
             }
 
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<Labb3MinmalContext>();
+                //check if database exist, if not create database
+                context.Database.EnsureCreated();
+                //Add fake data to database
+                SeedData.Initialize(context);
+            }
+
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
