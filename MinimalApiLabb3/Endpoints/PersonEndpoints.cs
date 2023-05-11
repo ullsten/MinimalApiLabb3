@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using MinimalApiLabb3.Data;
 using MinimalApiLabb3.DTO.PersonDTO;
+using static MinimalApiLabb3.Models.PersonModel;
 using static MinimalApiLabb3.Program;
 
 namespace MinimalApiLabb3.Endpoints
@@ -23,7 +24,7 @@ namespace MinimalApiLabb3.Endpoints
 
                 if (!string.IsNullOrEmpty(startsWith))
                 {
-                    persons = persons.Where(p => p.FirstName.StartsWith(startsWith, StringComparison.OrdinalIgnoreCase))
+                    persons = persons.Where(p => p.FirstName.StartsWith(startsWith, StringComparison.OrdinalIgnoreCase)) //lower or upercase doesnt matter, 
                         .ToList();
 
                     if (persons.Count == 0)

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using MinimalApiLabb3.Data;
 using MinimalApiLabb3.DTO.InterestDTO;
 using MinimalApiLabb3.DTO.PersonDTO;
+using static MinimalApiLabb3.Models.InterestModel;
 using static MinimalApiLabb3.Program;
 
 namespace MinimalApiLabb3.Endpoints

@@ -25,7 +25,11 @@ namespace MinimalApiLabb3
             builder.Services.AddDbContext<Labb3MinmalContext>(options =>
                 options.UseSqlServer(connectionString));
 
-
+            builder.Services.AddSwaggerGen(swaggerGenOptions =>
+            {
+                swaggerGenOptions.SwaggerDoc(name: "v1", info: new OpenApiInfo { Title = "Asp.Net Core Minimal API", Version = "v1" });
+            });
+            
             builder.Services.AddAuthorization();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -46,7 +50,6 @@ namespace MinimalApiLabb3
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
-
             }
 
             using (var scope = app.Services.CreateScope())
@@ -69,78 +72,5 @@ namespace MinimalApiLabb3
 
             app.Run();
         }
-
-        //tables
-        public class Person
-        {
-            [Key]
-            [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-            public int PersonId { get; set; }
-
-            [Required]
-            [StringLength(30)]
-            [DisplayName("First name")]
-            public string? FirstName { get; set; } = default;
-
-            [Required]
-            [StringLength(30)]
-            [DisplayName("Last name")]
-            public string? LastName { get; set; } = default;
-
-            [NotMapped]
-            [DisplayName("Person")]
-            public string FullName => $"{FirstName} {LastName}";
-
-            [Required]
-            [StringLength(20)]
-            [DisplayName("Phone number")]
-            public string? PhoneNumber { get; set; }
-
-            public ICollection<Interest>? Interests { get; set; } //navigering
-        }
-
-        public class Interest
-        {
-            [Key]
-            [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-            public int InterestId { get; set; }
-
-            [Required]
-            [StringLength(50)]
-            [DisplayName("Title")]
-            public string? InterestTitle { get; set; }
-
-            [Required]
-            [StringLength(250)]
-            [DisplayName("Description")]
-            public string? InterestDescription { get; set; }
-
-            [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-            public DateTime Created { get; set; } = DateTime.Now;
-
-            [ForeignKey("Persons")]
-            public int? FK_PersonId { get; set; } = null;
-            public Person? Persons { get; set; } //navigation
-            public ICollection<Link>? Links { get; set; } //navigering
-        }
-
-            public class Link
-            {
-                [Key]
-                [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-                public int LinkId { get; set; }
-
-                [Required]
-                [StringLength(20)]
-                public string LinkTitle { get; set; }
-
-                [Required]
-                [StringLength(100)]
-                public string URL { get; set; }
-
-                [ForeignKey("Interest")]
-                public int? FK_InterestId { get; set; } = null;
-                public Interest? Interest { get; set; } // navigation property
-            }
     }
 }

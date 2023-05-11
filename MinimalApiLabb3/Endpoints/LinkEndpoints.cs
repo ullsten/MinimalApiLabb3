@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MinimalApiLabb3.Data;
 using MinimalApiLabb3.DTO.LinkDTO;
+using static MinimalApiLabb3.Models.LinkModel;
 using static MinimalApiLabb3.Program;
 
 namespace MinimalApiLabb3.Endpoints

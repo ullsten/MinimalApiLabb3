@@ -1,4 +1,7 @@
-﻿using static MinimalApiLabb3.Program;
+﻿using static MinimalApiLabb3.Models.InterestModel;
+using static MinimalApiLabb3.Models.LinkModel;
+using static MinimalApiLabb3.Models.PersonModel;
+using static MinimalApiLabb3.Program;
 
 namespace MinimalApiLabb3.Data
 {
