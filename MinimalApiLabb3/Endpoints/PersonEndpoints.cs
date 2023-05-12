@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using MinimalApiLabb3.Data;
 using MinimalApiLabb3.DTO.PersonDTO;
+using MinimalApiLabb3.Repositories;
 using static MinimalApiLabb3.Models.PersonModel;
 using static MinimalApiLabb3.Program;
 
@@ -12,7 +13,6 @@ namespace MinimalApiLabb3.Endpoints
     {
         public static void MapPersonEndpoints(this IEndpointRouteBuilder app)
         {
-
             //get persons with filtered or not
             app.MapGet("/GetAllPerson", async (Labb3MinmalContext context, [FromQuery] string startsWith = "") =>
             {

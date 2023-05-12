@@ -30,6 +30,7 @@ namespace MinimalApiLabb3
                 swaggerGenOptions.SwaggerDoc(name: "v1", info: new OpenApiInfo { Title = "Asp.Net Core Minimal API", Version = "v1" });
             });
             
+
             builder.Services.AddAuthorization();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -44,11 +45,15 @@ namespace MinimalApiLabb3
                 endpoints.MapPersonEndpoints();
                 endpoints.MapInterestEndpoints();
                 endpoints.MapLinkEndpoints();
+
+                //with repository
+                endpoints.MapPersonRepoEndpoints();
             });
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwaggerUI();
+               //app.UseSwagger();
             }
 
             app.UseSwagger();
@@ -76,9 +81,6 @@ namespace MinimalApiLabb3
             app.UseAuthorization();
 
       
-
-
-
             app.Run();
         }
     }
