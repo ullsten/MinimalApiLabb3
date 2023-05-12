@@ -42,7 +42,7 @@ namespace MinimalApiLabb3.Endpoints
                 }
 
                 return Results.Ok(interest);
-            });
+            }).WithTags("Interest");
 
             //Routes Interest
             app.MapGet("/GetPersonInterest", async (Labb3MinmalContext context, [FromQuery] string startsWith = "") =>
@@ -78,7 +78,7 @@ namespace MinimalApiLabb3.Endpoints
                 }
 
                 return Results.Ok(personInterest);
-            });
+            }).WithTags("Interest");
 
             //get by id
             app.MapGet("/PersonInterestBy{id}", async (Labb3MinmalContext context, int id) =>
@@ -86,7 +86,7 @@ namespace MinimalApiLabb3.Endpoints
                 await context.Interests.FindAsync(id) is Interest interest ?
                 Results.Ok(interest) :
                 Results.NotFound($"Sorry, no person with ID: {id} found"
-            ));
+            )).WithTags("Interest");
 
             //post
             app.MapPost("/CreatePersonInterest", async (Labb3MinmalContext context, PersonInterestCreateDTO createDTO) =>
@@ -109,7 +109,7 @@ namespace MinimalApiLabb3.Endpoints
                 {
                     return Results.NotFound("Sorry, no Interest was added to the database.");
                 }
-            });
+            }).WithTags("Interest");
 
             app.MapPut("/UpdatePersonInterest/{id}", async (Labb3MinmalContext context, PersonInterestUpdateDTO updateDTO, int id) =>
             {
@@ -124,7 +124,7 @@ namespace MinimalApiLabb3.Endpoints
                 await context.SaveChangesAsync();
 
                 return Results.Ok(await context.Interests.ToListAsync());
-            });
+            }).WithTags("Interest");
 
             app.MapDelete("/DeletePersonInterest/{id}", async (Labb3MinmalContext context, int id) =>
             {
@@ -136,7 +136,7 @@ namespace MinimalApiLabb3.Endpoints
                 context.Interests.Remove(interest);
                 await context.SaveChangesAsync();
                 return Results.Ok(await context.Interests.ToListAsync());
-            });
+            }).WithTags("Interest");
         }
             
     }

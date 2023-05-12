@@ -48,9 +48,18 @@ namespace MinimalApiLabb3
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(swaggerUiOptions =>
+            {
+                swaggerUiOptions.DocumentTitle = "Learning minimal API";
+                swaggerUiOptions.SwaggerEndpoint("/swagger/v1/swagger.json", name: "Api that gives you a possibility to learn.");
+                swaggerUiOptions.RoutePrefix = string.Empty;
+            });
+
+
 
             using (var scope = app.Services.CreateScope())
             {

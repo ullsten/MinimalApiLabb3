@@ -12,6 +12,7 @@ namespace MinimalApiLabb3.Endpoints
     {
         public static void MapPersonEndpoints(this IEndpointRouteBuilder app)
         {
+
             //get persons with filtered or not
             app.MapGet("/GetAllPerson", async (Labb3MinmalContext context, [FromQuery] string startsWith = "") =>
             {
@@ -34,7 +35,7 @@ namespace MinimalApiLabb3.Endpoints
                 }
 
                 return Results.Ok(persons);
-            });
+            }).WithTags("Person");
 
             //get by id
             app.MapGet("/GetPerson/{id}", async (Labb3MinmalContext context, int id) =>
@@ -42,7 +43,7 @@ namespace MinimalApiLabb3.Endpoints
                 await context.Persons.FindAsync(id) is Person person ?
                 Results.Ok(person) :
                 Results.NotFound($"Sorry, no person with ID: {id} found"
-            ));
+            )).WithTags("Person");
 
             //Create person
             app.MapPost("/CreatePerson", async (Labb3MinmalContext context, PersonCreateDTO createDTO) =>
@@ -65,7 +66,7 @@ namespace MinimalApiLabb3.Endpoints
                 {
                     return Results.NotFound("Sorry, no person was added to the database.");
                 }
-            });
+            }).WithTags("Person");
 
             app.MapPut("/UpdatePerson/{id}", async (Labb3MinmalContext context, Person updatedPerson, int id) =>
             {
@@ -80,7 +81,7 @@ namespace MinimalApiLabb3.Endpoints
                 await context.SaveChangesAsync();
 
                 return Results.Ok(await context.Persons.ToListAsync());
-            });
+            }).WithTags("Person");
 
             //Get person with all interest and link(s) filtered or not
             app.MapGet("/GetPersonInterestLink", async (Labb3MinmalContext context, [FromQuery] string startsWith = "") =>
@@ -118,7 +119,7 @@ namespace MinimalApiLabb3.Endpoints
                 }
 
                 return Results.Ok(personLink);
-            });
+            }).WithTags("Person");
 
             app.MapDelete("/DeletePerson/{id}", async (Labb3MinmalContext context, int id) =>
             {
@@ -130,7 +131,7 @@ namespace MinimalApiLabb3.Endpoints
                 context.Persons.Remove(person);
                 await context.SaveChangesAsync();
                 return Results.Ok(await context.Persons.ToListAsync());
-            });
+            }).WithTags("Person"); 
         }
     }
 }

@@ -39,7 +39,7 @@ namespace MinimalApiLabb3.Endpoints
                 }
 
                 return Results.Ok(links);
-            });
+            }).WithTags("Link");
 
             app.MapGet("/GetPersonsWithLink", async (Labb3MinmalContext context, [FromQuery] string startsWith = "") =>
             {
@@ -75,7 +75,7 @@ namespace MinimalApiLabb3.Endpoints
                 }
 
                 return Results.Ok(personLink);
-            });
+            }).WithTags("Link");
 
             //get by id
             app.MapGet("/GetPersonsWithLink/{id}", async (Labb3MinmalContext context, int id) =>
@@ -101,7 +101,7 @@ namespace MinimalApiLabb3.Endpoints
                 }
 
                 return Results.Ok(personLink);
-            });
+            }).WithTags("Link");
 
             //post new Person link
             app.MapPost("/CreateInterestLink", async (Labb3MinmalContext context, LinkInterestCreateDTO createDTO) =>
@@ -125,7 +125,7 @@ namespace MinimalApiLabb3.Endpoints
                 {
                     return Results.NotFound("Sorry, no Interest was added to the database.");
                 }
-            });
+            }).WithTags("Link");
 
             //Create new link
             app.MapPost("/CreateLink", async (Labb3MinmalContext context, LinkCreateDTO createDto) =>
@@ -147,7 +147,7 @@ namespace MinimalApiLabb3.Endpoints
                 {
                     return Results.Problem("Sorry, no link was created!");
                 }
-            });
+            }).WithTags("Link");
 
             app.MapPut("/UpdateLinkForPersonInterest/{id}", async (Labb3MinmalContext context, LinkPersonInterestUpdateDTO updateDTO, int id) =>
             {
@@ -161,7 +161,7 @@ namespace MinimalApiLabb3.Endpoints
                 await context.SaveChangesAsync();
 
                 return Results.Ok(await context.Links.ToListAsync()); //show response body
-            });
+            }).WithTags("Link");
 
             //delete link
             app.MapDelete("/DeleteLink/{id}", async (Labb3MinmalContext context, int id) =>
@@ -174,7 +174,7 @@ namespace MinimalApiLabb3.Endpoints
                 context.Links.Remove(link);
                 await context.SaveChangesAsync();
                 return Results.Ok(await context.Links.ToListAsync());
-            });
+            }).WithTags("Link");
         }
     }
 }
