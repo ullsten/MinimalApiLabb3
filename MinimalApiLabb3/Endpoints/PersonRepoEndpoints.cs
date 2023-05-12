@@ -1,4 +1,5 @@
-﻿using MinimalApiLabb3.DTO.PersonDTO;
+﻿using MinimalApiLabb3.Data;
+using MinimalApiLabb3.DTO.PersonDTO;
 using MinimalApiLabb3.Repositories;
 using static MinimalApiLabb3.Models.PersonModel;
 
@@ -17,7 +18,7 @@ namespace MinimalApiLabb3.Endpoints
                 if (personToReturn != null)
                 {
                     return Results.Ok(value: personToReturn);
-                }
+                }    
                 else
                 {
                     return Results.BadRequest();
@@ -36,6 +37,38 @@ namespace MinimalApiLabb3.Endpoints
                     return Results.BadRequest();
                 }
             }).WithTags("1-Repository Endpoint");
+
+
+            app.MapPut("/update-person/{personId}", async (int personId, PersonUpdateDTO updateDTO) =>
+            {
+                string message = await PersonRepository.UpdatePersonAsync(personId, updateDTO);
+                if (message == "Person updated successfully")
+                {
+                    return Results.Ok(message);
+                }
+                else
+                {
+                    return Results.BadRequest(message);
+                }
+            }).WithTags("1-Repository Endpoint");
+
+
+            app.MapDelete("/delete-person-by-id/{personId}", async (int personId) =>
+            {
+                try
+                {
+                    string deleteResult = await PersonRepository.DeletePersonAsync(personId);
+                    return Results.Ok(deleteResult);
+                }
+                catch (Exception ex)
+                {
+                    return Results.BadRequest(ex.Message);
+                }
+            }).WithTags("1-Repository Endpoint");
+
+
+
+
         }
     }
 }

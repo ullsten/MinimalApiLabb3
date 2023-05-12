@@ -68,9 +68,9 @@ namespace MinimalApiLabb3.Endpoints
                 }
             }).WithTags("Person");
 
-            app.MapPut("/UpdatePerson/{id}", async (Labb3MinmalContext context, Person updatedPerson, int id) =>
+            app.MapPut("/UpdatePerson/{id}", async (Labb3MinmalContext context, Person updatedPerson) =>
             {
-                var person = await context.Persons.FindAsync(id);
+                var person = await context.Persons.FindAsync();
 
                 if (person is null)
                     return Results.NotFound("Sorry, this person doesn´t exist.");
@@ -118,7 +118,7 @@ namespace MinimalApiLabb3.Endpoints
                     }
                 }
 
-                return Results.Ok(personLink);
+                return Results.Ok(personLink);      
             }).WithTags("Person");
 
             app.MapDelete("/DeletePerson/{id}", async (Labb3MinmalContext context, int id) =>
