@@ -23,7 +23,7 @@ namespace MinimalApiLabb3.Data
                 .HasOne(p => p.Persons)
                 .WithMany(p => p.Interests)
                 .HasForeignKey(p => p.FK_PersonId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.SetNull);
         }
 
         public DbSet<Person> Persons { get; set; }

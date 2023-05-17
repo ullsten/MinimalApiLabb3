@@ -29,8 +29,10 @@ namespace MinimalApiLabb3.Repositories
             {
                 var personInterest = await db.Interests
                     .Include(i => i.Persons)
+                    .Where(i => i.Persons != null) //filter to not show where interest have no relation to person 
                     .Select(i => new PersonGetDTO
                     {
+                        PersonId = i.Persons.PersonId,
                         FirstName = i.Persons.FirstName,
                         LastName = i.Persons.LastName,
                         PhoneNumber = i.Persons.PhoneNumber,

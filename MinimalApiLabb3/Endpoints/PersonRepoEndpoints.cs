@@ -11,7 +11,7 @@ namespace MinimalApiLabb3.Endpoints
         {
 
             app.MapGet("/get-Persons-With-Interest", async () => await PersonRepository.GetPersonInterestAsync())
-            .WithTags("0-Repository Endpoint");
+            .WithTags("1-Repository Endpoint");
 
 
 
