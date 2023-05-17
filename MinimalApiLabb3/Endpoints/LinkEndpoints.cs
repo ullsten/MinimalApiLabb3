@@ -45,9 +45,11 @@ namespace MinimalApiLabb3.Endpoints
             {
                 var personLink = await context.Links
                     .Include(l => l.Interest)
+                    .Where(l => l.Interest.Persons != null)
                     .Where(l => l.Interest != null)
                     .Select(l => new PersonGetLinkDTO
                     {
+                        InterestId = l.Interest.InterestId,
                         PersonId = l.Interest.Persons.PersonId,
                         FirstName = l.Interest.Persons.FirstName,
                         LastName = l.Interest.Persons.LastName,

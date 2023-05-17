@@ -88,6 +88,7 @@ namespace MinimalApiLabb3.Endpoints
             {
                 var personLink = await context.Links
                  .Include(l => l.Interest)
+                 .Where(l => l.Interest.Persons != null)
                  .Where(l => l.FK_InterestId != null) //filter so if no relation to interest, result still get all with relation
                  .Select(l => new PersonInterestLinkGetDTO
                  {
