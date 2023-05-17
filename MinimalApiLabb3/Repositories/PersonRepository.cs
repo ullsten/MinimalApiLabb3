@@ -1,9 +1,16 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿
+using System.Text.Json;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MinimalApiLabb3.Data;
 using MinimalApiLabb3.DTO.PersonDTO;
+using static MinimalApiLabb3.Models.InterestModel;
 using static MinimalApiLabb3.Models.PersonModel;
+using System.Net.Http.Json;
+using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
+using System.Text.Json.Serialization;
 
 namespace MinimalApiLabb3.Repositories
 {
@@ -14,6 +21,25 @@ namespace MinimalApiLabb3.Repositories
             using (var db = new Labb3MinmalContext())
             {
                 return await db.Persons.ToListAsync();
+            }
+        }
+        internal async static Task<List<PersonGetDTO>> GetPersonInterestAsync()
+        {
+            using (var db = new Labb3MinmalContext())
+            {
+                var personInterest = await db.Interests
+                    .Include(i => i.Persons)
+                    .Select(i => new PersonGetDTO
+                    {
+                        FirstName = i.Persons.FirstName,
+                        LastName = i.Persons.LastName,
+                        PhoneNumber = i.Persons.PhoneNumber,
+                        InterestId = i.InterestId,
+                        InterestTitle = i.InterestTitle,
+                        InterestDescription = i.InterestDescription
+                    }).ToListAsync();
+
+                return personInterest;
             }
         }
 
@@ -82,26 +108,20 @@ namespace MinimalApiLabb3.Repositories
 
         internal async static Task<string> DeletePersonAsync(int personId)
         {
-            try
+            using (var db = new Labb3MinmalContext())
             {
-                using (var db = new Labb3MinmalContext())
-                {
-                    var person = await db.Persons.FindAsync(personId);
+                var person = await db.Persons.FindAsync(personId);
 
-                    if (person == null)
-                        return ($"No person found with ID: {personId} to delete");
+                if (person == null)
+                    return $"No person found with ID: ({personId}) to delete";
 
-                    db.Persons.Remove(person);
-                    await db.SaveChangesAsync();
+                db.Persons.Remove(person);
+                await db.SaveChangesAsync();
 
-                    return ($"Person with ID: {personId} removed successfully");
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Failed to delete person with ID {personId}: {ex.Message}");
+                return $"Person with ID: {personId} removed successfully";
             }
         }
+
 
     }
 }

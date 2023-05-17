@@ -9,21 +9,40 @@ namespace MinimalApiLabb3.Endpoints
     {
         public static void MapPersonRepoEndpoints(this IEndpointRouteBuilder app)
         {
+
+            app.MapGet("/get-Persons-With-Interest", async () => await PersonRepository.GetPersonInterestAsync())
+            .WithTags("0-Repository Endpoint");
+
+
+
             app.MapGet("/get-all-persons", async () => await PersonRepository.GetPersonAsync())
                .WithTags("1-Repository Endpoint");
 
+            //Get person by id
             app.MapGet(pattern: "/get-person-by-id/{personId}", handler: async (int personId) =>
             {
+                if (personId == 0)
+                {
+                    return Results.BadRequest("Person ID cannot be zero.");
+                }
+
+                if (personId < 0)
+                {
+                    return Results.BadRequest("Person ID cannot be negative.");
+                }
+
                 Person personToReturn = await PersonRepository.GetPersonByIdAsync(personId);
                 if (personToReturn != null)
                 {
-                    return Results.Ok(value: personToReturn);
-                }    
+                    return Results.Ok(personToReturn);
+                }
                 else
                 {
-                    return Results.BadRequest();
+                    return Results.BadRequest($"No person found with ID: {personId}");
                 }
             }).WithTags("1-Repository Endpoint");
+
+
 
             app.MapPost(pattern: "/create-person", handler: async (PersonCreateDTO createDTO) =>
             {
@@ -55,19 +74,17 @@ namespace MinimalApiLabb3.Endpoints
 
             app.MapDelete("/delete-person-by-id/{personId}", async (int personId) =>
             {
-                try
+                string deleteResult = await PersonRepository.DeletePersonAsync(personId);
+
+                if (deleteResult == ($"Person with ID: {personId} removed successfully"))
                 {
-                    string deleteResult = await PersonRepository.DeletePersonAsync(personId);
                     return Results.Ok(deleteResult);
                 }
-                catch (Exception ex)
+                else
                 {
-                    return Results.BadRequest(ex.Message);
+                    return Results.BadRequest(deleteResult);
                 }
             }).WithTags("1-Repository Endpoint");
-
-
-
 
         }
     }

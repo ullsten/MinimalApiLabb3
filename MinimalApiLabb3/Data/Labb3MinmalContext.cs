@@ -17,6 +17,14 @@ namespace MinimalApiLabb3.Data
         {
             
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Interest>()
+                .HasOne(p => p.Persons)
+                .WithMany(p => p.Interests)
+                .HasForeignKey(p => p.FK_PersonId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
 
         public DbSet<Person> Persons { get; set; }
         public DbSet<Interest> Interests { get; set; }

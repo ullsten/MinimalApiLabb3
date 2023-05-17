@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using static MinimalApiLabb3.Models.LinkModel;
+using System.Text.Json.Serialization;
 
 namespace MinimalApiLabb3.Models
 {
@@ -31,6 +32,7 @@ namespace MinimalApiLabb3.Models
             [ForeignKey("Persons")]
             public int? FK_PersonId { get; set; } = null;
             public Person? Persons { get; set; } //navigation
+
             public ICollection<Link>? Links { get; set; } //navigering
         }
     }
