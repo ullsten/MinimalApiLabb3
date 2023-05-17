@@ -49,6 +49,7 @@ namespace MinimalApiLabb3.Endpoints
             {
                 var personInterest = await context.Interests
                  .Include(p => p.Persons)
+                 .Where(p=> p.Persons != null) //filter to not show where null is
                  .Select(p => new PersonGetDTO
                  {
                      PersonId = p.Persons.PersonId,
